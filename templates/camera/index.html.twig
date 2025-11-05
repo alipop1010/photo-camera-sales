@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Фотоаппараты{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Фотоаппараты</h1>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Модель</th>
+                    <th>Бренд</th>
+                    <th>Цена</th>
+                    <th>Мегапиксели</th>
+                    <th>Тип сенсора</th>
+                    <th>Защита от погоды</th>
+                    <th>Год выпуска</th>
+                    <th>Особенности</th>
+                    <th>На складе</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for camera in pagination %}
+                <tr>
+                    <td>{{ camera.id }}</td>
+                    <td><strong>{{ camera.model }}</strong></td>
+                    <td>{{ camera.brand.name }}</td>
+                    <td>{{ camera.price|number_format(0, ',', ' ') }} ₽</td>
+                    <td>{{ camera.megapixels }} Мп</td>
+                    <td>{{ camera.sensorType }}</td>
+                    <td>
+                        {% if camera.isWeatherSealed %}
+                            <span class="badge bg-success">Да</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Нет</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ camera.releaseYear }}</td>
+                    <td>
+                        {% if camera.features %}
+                            {{ camera.features|slice(0, 30) }}{% if camera.features|length > 30 %}...{% endif %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if camera.stockQuantity > 10 %}
+                            <span class="badge bg-success">{{ camera.stockQuantity }}</span>
+                        {% elseif camera.stockQuantity > 0 %}
+                            <span class="badge bg-warning">{{ camera.stockQuantity }}</span>
+                        {% else %}
+                            <span class="badge bg-danger">Нет</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <div class="mt-3">
+        <p>Всего фотоаппаратов: {{ pagination.getTotalItemCount }}</p>
+    </div>
+</div>
+{% endblock %}

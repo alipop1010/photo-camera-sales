@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Бренды фотоаппаратов{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">🅱️ Бренды фотоаппаратов</h1>
+    
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Список брендов (всего: {{ pagination.getTotalItemCount }})</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th width="60">ID</th>
+                            <th>Название</th>
+                            <th>Страна</th>
+                            <th>Описание</th>
+                            <th width="80">Сайт</th>
+                            <th width="80">Логотип</th>
+                            <th width="120">Год основания</th>
+                            <th>Штаб-квартира</th>
+                            <th width="140">Дата создания</th>
+                            <th width="140">Обновлено</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for brand in pagination %}
+                        <tr>
+                            <td class="fw-bold text-primary">#{{ brand.id }}</td>
+                            <td><strong>{{ brand.name }}</strong></td>
+                            <td>{{ brand.country }}</td>
+                            <td>
+                                {% if brand.description %}
+                                    <small>{{ brand.description|slice(0, 50) }}{% if brand.description|length > 50 %}...{% endif %}</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if brand.website %}
+                                    <a href="{{ brand.website }}" target="_blank" class="btn btn-sm btn-outline-primary">Сайт</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if brand.logoUrl %}
+                                    <img src="{{ brand.logoUrl }}" alt="Логотип" style="max-width: 50px; max-height: 50px;">
+                                {% endif %}
+                            </td>
+                            <td>{{ brand.foundedYear }}</td>
+                            <td>{{ brand.headquarters }}</td>
+                            <td>
+                                <small class="text-muted">{{ brand.createdAt|date('d.m.Y H:i') }}</small>
+                            </td>
+                            <td>
+                                {% if brand.updatedAt %}
+                                    <small class="text-muted">{{ brand.updatedAt|date('d.m.Y H:i') }}</small>
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <small class="text-muted">
+                        Страница {{ pagination.getCurrentPageNumber }} из {{ pagination.getPageCount }}
+                    </small>
+                </div>
+                <div class="col-md-6">
+                    <div class="navigation float-end">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

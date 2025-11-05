@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Покупатели{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">👥 Покупатели</h1>
+    
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Список покупателей (всего: {{ pagination.getTotalItemCount }})</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th width="80">ID</th>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Email</th>
+                            <th>Телефон</th>
+                            <th>Адрес</th>
+                            <th>Город</th>
+                            <th>Индекс</th>
+                            <th>Страна</th>
+                            <th>Дата регистрации</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in pagination %}
+                        <tr>
+                            <td class="fw-bold text-primary">#{{ customer.id }}</td>
+                            <td>{{ customer.firstName }}</td>
+                            <td><strong>{{ customer.lastName }}</strong></td>
+                            <td>
+                                <span class="badge bg-info text-dark">{{ customer.email }}</span>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ customer.phoneNumber ?? '—' }}</small>
+                            </td>
+                            <td>
+                                {% if customer.address %}
+                                    <small>{{ customer.address|slice(0, 15) }}{% if customer.address|length > 15 %}...{% endif %}</small>
+                                {% endif %}
+                            </td>
+                            <td>{{ customer.city }}</td>
+                            <td><code>{{ customer.zipCode }}</code></td>
+                            <td>
+                                <span class="badge bg-secondary">{{ customer.country }}</span>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ customer.registeredAt|date('d.m.Y') }}</small>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <small class="text-muted">
+                        Страница {{ pagination.getCurrentPageNumber }} из {{ pagination.getPageCount }}
+                    </small>
+                </div>
+                <div class="col-md-6">
+                    <div class="navigation float-end">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

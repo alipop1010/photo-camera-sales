@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Контакты - Система продажи фотоаппаратов{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <!-- Заголовок -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-dark mb-4">Свяжитесь с нами</h1>
+                <p class="lead text-muted">Мы всегда рады помочь и ответить на ваши вопросы</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <!-- Контактная информация -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="fw-bold text-primary text-center mb-5">📞 Контактная информация</h2>
+                        </div>
+                        
+                        {% for contact in contacts %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="mb-3">
+                                        <i class="{{ contact.icon }} fa-2x text-primary"></i>
+                                    </div>
+                                    <h5 class="card-title text-dark">{{ contact.title }}</h5>
+                                    {% if contact.link %}
+                                        <a href="{{ contact.link }}" class="card-text text-muted text-decoration-none fs-5">
+                                            {{ contact.value }}
+                                        </a>
+                                    {% else %}
+                                        <p class="card-text text-muted fs-5">{{ contact.value }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Форма обратной связи -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="fw-bold text-primary text-center mb-4">✉️ Форма обратной связи</h2>
+                            <p class="text-center text-muted mb-5">Оставьте ваше сообщение и мы свяжемся с вами в ближайшее время</p>
+                            
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="name" class="form-label fw-semibold">Ваше имя *</label>
+                                                <input type="text" class="form-control form-control-lg" id="name" placeholder="Иван Иванов" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="email" class="form-label fw-semibold">Email *</label>
+                                                <input type="email" class="form-control form-control-lg" id="email" placeholder="ivan@example.com" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="subject" class="form-label fw-semibold">Тема сообщения</label>
+                                            <input type="text" class="form-control form-control-lg" id="subject" placeholder="Тема вашего обращения">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="message" class="form-label fw-semibold">Сообщение *</label>
+                                            <textarea class="form-control form-control-lg" id="message" rows="5" placeholder="Опишите ваш вопрос или предложение..." required></textarea>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3">
+                                                <i class="fas fa-paper-plane me-2"></i>Отправить сообщение
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Карта -->
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h2 class="fw-bold text-primary text-center mb-4">🗺️ Мы на карте</h2>
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-0">
+                                    <div class="bg-light rounded-3 p-5 text-center">
+                                        <i class="fas fa-map-marked-alt fa-4x text-muted mb-3"></i>
+                                        <h5 class="text-dark">г. Москва, ул. Фотографическая, д. 123</h5>
+                                        <p class="text-muted mb-0">Ближайшее метро: Фотостанция</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

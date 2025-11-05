@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Покупки{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">🛒 История покупок</h1>
+    
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Список покупок (всего: {{ pagination.getTotalItemCount }})</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th width="60">ID</th>
+                            <th>Покупатель</th>
+                            <th>Фотоаппарат</th>
+                            <th width="100">Количество</th>
+                            <th width="120">Сумма</th>
+                            <th width="120">Статус</th>
+                            <th width="140">Дата покупки</th>
+                            <th>Адрес доставки</th>
+                            <th width="120">Способ оплаты</th>
+                            <th>Примечания</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for purchase in pagination %}
+                        <tr>
+                            <td class="fw-bold text-primary">#{{ purchase.id }}</td>
+                            <td>
+                                <div>
+                                    <strong>{{ purchase.customer.firstName }} {{ purchase.customer.lastName }}</strong>
+                                </div>
+                                <div>
+                                    <small class="text-muted">{{ purchase.customer.email }}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <strong>{{ purchase.camera.brand.name }} {{ purchase.camera.model }}</strong>
+                                </div>
+                                <div>
+                                    <small class="text-muted">{{ purchase.camera.price|number_format(0, ',', ' ') }} ₽</small>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-primary fs-6">{{ purchase.quantity }} шт.</span>
+                            </td>
+                            <td>
+                                <strong class="text-success">{{ purchase.totalPrice|number_format(0, ',', ' ') }} ₽</strong>
+                            </td>
+                            <td>
+                                {% if purchase.status == 'завершен' %}
+                                    <span class="badge bg-success fs-6">{{ purchase.status }}</span>
+                                {% elseif purchase.status == 'доставляется' %}
+                                    <span class="badge bg-warning text-dark fs-6">{{ purchase.status }}</span>
+                                {% elseif purchase.status == 'обрабатывается' %}
+                                    <span class="badge bg-info text-dark fs-6">{{ purchase.status }}</span>
+                                {% else %}
+                                    <span class="badge bg-danger fs-6">{{ purchase.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ purchase.purchaseDate|date('d.m.Y H:i') }}</small>
+                            </td>
+                            <td>
+                                {% if purchase.shippingAddress %}
+                                    <small>{{ purchase.shippingAddress|slice(0, 25) }}{% if purchase.shippingAddress|length > 25 %}...{% endif %}</small>
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if purchase.paymentMethod %}
+                                    <span class="badge bg-secondary">{{ purchase.paymentMethod }}</span>
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if purchase.notes %}
+                                    <small>{{ purchase.notes|slice(0, 20) }}{% if purchase.notes|length > 20 %}...{% endif %}</small>
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <small class="text-muted">
+                        Страница {{ pagination.getCurrentPageNumber }} из {{ pagination.getPageCount }}
+                    </small>
+                </div>
+                <div class="col-md-6">
+                    <div class="navigation float-end">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

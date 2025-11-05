@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: photo-camera-sales
+    env: php
+    plan: free
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php bin/console doctrine:schema:update --force
+    startCommand: "php -S 0.0.0.0:8000 -t public"
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: APP_SECRET
+        generateValue: true
+
+  - type: pgsql
+    name: photo-camera-db
+    plan: free
+    ipAllowList: []
