@@ -1,13 +1,4 @@
 {
-    "doctrine/annotations": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.10",
-            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
-        }
-    },
     "doctrine/deprecations": {
         "version": "1.1",
         "recipe": {
@@ -31,18 +22,6 @@
             "src/Repository/.gitignore"
         ]
     },
-    "doctrine/doctrine-fixtures-bundle": {
-        "version": "4.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "3.0",
-            "ref": "1f5514cfa15b947298df4d771e694e578d4c204d"
-        },
-        "files": [
-            "src/DataFixtures/AppFixtures.php"
-        ]
-    },
     "doctrine/doctrine-migrations-bundle": {
         "version": "3.5",
         "recipe": {
@@ -55,9 +34,6 @@
             "config/packages/doctrine_migrations.yaml",
             "migrations/.gitignore"
         ]
-    },
-    "knplabs/knp-paginator-bundle": {
-        "version": "v6.9.1"
     },
     "phpunit/phpunit": {
         "version": "12.4",
@@ -345,18 +321,5 @@
     },
     "twig/extra-bundle": {
         "version": "v3.22.0"
-    },
-    "zenstruck/foundry": {
-        "version": "2.7",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "2.7",
-            "ref": "135a835d9425f916e23f5509b2a48f70b4d986a5"
-        },
-        "files": [
-            "config/packages/zenstruck_foundry.yaml",
-            "src/Story/AppStory.php"
-        ]
     }
 }
